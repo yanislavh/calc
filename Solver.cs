@@ -76,27 +76,10 @@ namespace calc
             char[] tempCharArr = new char[] { };
             string[] chislaIznaci = new string[] { };
             string minProblem = problem.Substring(otvarqshta[index] + 1, zatvarqshta[index]-otvarqshta[index] - 1);
-            string minproblemzasplit = "";
+            string minproblemzasplit = minProblem;
             tempCharArr = minProblem.ToCharArray();
-            int tempI = 0;
-            minproblemzasplit.Replace('+', ' ');
-            minproblemzasplit.Replace('-', ' ');
-            minproblemzasplit.Replace('*', ' ');
-            minproblemzasplit.Replace('/', ' ');
-            chislaIznaci = minproblemzasplit.Split(' ');
-            for (int i = 0; i < tempCharArr.Length; i++)
-            {
-                
-                  if(tempCharArr[i] == '+' || tempCharArr[i] == '-' || tempCharArr[i] == '*' || tempCharArr[i] == '/')
-                {
-                    
-                    //chislaIznaci.Add(minProblem.Substring(tempI, i ));
-                    //tempI = i + 1;
-                    //chislaIznaci.Add(tempCharArr[i].ToString());
-                }
-                
-            }
-            //chislaIznaci.Add(minProblem.Substring(tempI));
+            chislaIznaci = minproblemzasplit.Split('+', '-', '/', '*');
+            
         }
     }
 }
