@@ -89,32 +89,33 @@ namespace calc
             }
             chislaIznaci.Add(minProblem.Substring(tempI));
             double reshenieT = 0;
-            for (int i = 1; i < chislaIznaci.Count; i++)
+            for (int i = 1; i <= chislaIznaci.Count; i++)
             {
-                if (chislaIznaci[i] == "*")
+                if (chislaIznaci[i-1] == "*")
                 {
                     reshenieT = double.Parse(chislaIznaci[i - 1]) * double.Parse(chislaIznaci[i + 1]);
                     chislaIznaci.RemoveRange(i - 1, 3);
                     chislaIznaci.Insert(i - 1, reshenieT.ToString());
 
                 }
-                else if (chislaIznaci[i] == "/")
+                else if (chislaIznaci[i-1] == "/") //problem sveti tuka demek ot cikyla neshto
                 {
                     reshenieT = double.Parse(chislaIznaci[i - 1]) / double.Parse(chislaIznaci[i + 1]);
                     chislaIznaci.RemoveRange(i - 1, 3);
                     chislaIznaci.Insert(i - 1, reshenieT.ToString());
                 }
             }
-            for (int i = 1; i < chislaIznaci.Count; i++)
+            for (int i = 1; i <= chislaIznaci.Count; i++)
             {
-                if (chislaIznaci[i] == "+")
+                if (chislaIznaci[i-1] == "+")
                 {
                     reshenieT = double.Parse(chislaIznaci[i - 1]) + double.Parse(chislaIznaci[i + 1]);
                     chislaIznaci.RemoveRange(i - 1, 3);
                     chislaIznaci.Insert(i - 1, reshenieT.ToString());
                 }
-                else if (chislaIznaci[i] == "-")
+                else if (chislaIznaci[i-1] == "-")
                 {
+
                     reshenieT = double.Parse(chislaIznaci[i - 1]) - double.Parse(chislaIznaci[i + 1]);
                     chislaIznaci.RemoveRange(i - 1, 3);
                     chislaIznaci.Insert(i - 1, reshenieT.ToString()); // ima problem sus znacite i stava sled tova 2 i ne zachita minusa
