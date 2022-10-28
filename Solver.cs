@@ -74,12 +74,52 @@ namespace calc
         void SmqnaReshavane(int index)
         {
             char[] tempCharArr = new char[] { };
-            string[] chislaIznaci = new string[] { };
-            string minProblem = problem.Substring(otvarqshta[index] + 1, zatvarqshta[index]-otvarqshta[index] - 1);
-            string minproblemzasplit = minProblem;
+            List<string> chislaIznaci = new List<string>();
+            string minProblem = problem.Substring(otvarqshta[index] + 1, zatvarqshta[index] - otvarqshta[index] - 1);
             tempCharArr = minProblem.ToCharArray();
-            chislaIznaci = minproblemzasplit.Split('+', '-', '/', '*');
-            
+            int tempI = 0;
+            for (int i = 0; i < tempCharArr.Length; i++)
+            {
+                if (tempCharArr[i] == '+' || tempCharArr[i] == '/' || tempCharArr[i] == '*' || tempCharArr[i] == '-')
+                {
+                    chislaIznaci.Add(minProblem.Substring(tempI, i - tempI));
+                    chislaIznaci.Add(tempCharArr[i].ToString());
+                    tempI = i + 1;
+                }
+            }
+            chislaIznaci.Add(minProblem.Substring(tempI));
+            double reshenieT = 0;
+            for (int i = 1; i < chislaIznaci.Count; i++)
+            {
+                if (chislaIznaci[i] == "*")
+                {
+                    reshenieT = double.Parse(chislaIznaci[i - 1]) * double.Parse(chislaIznaci[i + 1]);
+                    chislaIznaci.RemoveRange(i - 1, 3);
+                    chislaIznaci.Insert(i - 1, reshenieT.ToString());
+
+                }
+                else if (chislaIznaci[i] == "/")
+                {
+                    reshenieT = double.Parse(chislaIznaci[i - 1]) / double.Parse(chislaIznaci[i + 1]);
+                    chislaIznaci.RemoveRange(i - 1, 3);
+                    chislaIznaci.Insert(i - 1, reshenieT.ToString());
+                }
+            }
+            for (int i = 1; i < chislaIznaci.Count; i++)
+            {
+                if (chislaIznaci[i] == "+")
+                {
+                    reshenieT = double.Parse(chislaIznaci[i - 1]) + double.Parse(chislaIznaci[i + 1]);
+                    chislaIznaci.RemoveRange(i - 1, 3);
+                    chislaIznaci.Insert(i - 1, reshenieT.ToString());
+                }
+                else if (chislaIznaci[i] == "-")
+                {
+                    reshenieT = double.Parse(chislaIznaci[i - 1]) - double.Parse(chislaIznaci[i + 1]);
+                    chislaIznaci.RemoveRange(i - 1, 3);
+                    chislaIznaci.Insert(i - 1, reshenieT.ToString()); // ima problem sus znacite i stava sled tova 2 i ne zachita minusa
+                }
+            }
         }
     }
 }
