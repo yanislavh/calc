@@ -148,7 +148,7 @@ namespace calc
             chislaIznaci.Clear();
             Array.Clear(tempCharArr, 0, tempCharArr.Length);
             Otvarqshta();
-
+            //imame problemi sys otricatelnite chisla
             //tozi metod ne baca kogato imam otricatelno pyrwo chislo
         }
     }
