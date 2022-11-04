@@ -24,14 +24,16 @@ namespace calc
     class Solver
     {
         string problem;
-        char[] charArr = new char[] { };
+        List<char> charArr = new List<char>();
         List<int> otvarqshta = new List<int>();
         List<int> zatvarqshta = new List<int>();
-        
+
         public Solver(string problem)
         {
             this.problem = problem;
-            charArr = problem.ToCharArray();
+            charArr.AddRange(problem);
+            Otvarqshta();
+            CalculiraneNaIndex();
         }
         char Ch(string a)
         {
@@ -39,21 +41,20 @@ namespace calc
         }
         public void Otvarqshta()
         {
-            for (int i = 0; i < charArr.Length; i++)
+            for (int i = 0; i < charArr.Count; i++)
             {
-                if (charArr[i] == Ch("("))
+                if (charArr[i] == '(')
                 {
                     Zatvarqshta(i);
                     otvarqshta.Add(i);
                 }
             }
-            CalculiraneNaIndex();
         }
         void Zatvarqshta(int i)
         {
             int countOtv = 0;
             int countZatv = 0;
-            for (int j = i; j < charArr.Length; j++)
+            for (int j = i; j < charArr.Count; j++)
             {
                 if (charArr[j] == '(') countOtv++;
                 else if (charArr[j] == ')') countZatv++;
@@ -62,14 +63,19 @@ namespace calc
                     zatvarqshta.Add(j);
                     break;
                 }
-
             }
         }
         void CalculiraneNaIndex()
         {
-            int tempNum = zatvarqshta.Min();
-            int index = zatvarqshta.IndexOf(tempNum);
-            SmqnaReshavane(index);
+            problem = "(" + problem + ")";
+            int puti = otvarqshta.Count;
+            for (int i = 0; i < puti; i++)
+            {
+                int tempNum = zatvarqshta.Min();
+                int index = zatvarqshta.IndexOf(tempNum);
+                SmqnaReshavane(index);
+            }
+            problem = "(" + problem + ")";
         }
         void SmqnaReshavane(int index)
         {
@@ -89,38 +95,62 @@ namespace calc
             }
             chislaIznaci.Add(minProblem.Substring(tempI));
             double reshenieT = 0;
-            for (int i = 1; i <= chislaIznaci.Count; i++)
+            for (int i = 0; i < chislaIznaci.Count / 2; i++)
             {
-                if (chislaIznaci[i-1] == "*")
+                tempI = chislaIznaci.IndexOf("*");
+                if (tempI == -1) break;
+                else
                 {
-                    reshenieT = double.Parse(chislaIznaci[i - 1]) * double.Parse(chislaIznaci[i + 1]);
-                    chislaIznaci.RemoveRange(i - 1, 3);
-                    chislaIznaci.Insert(i - 1, reshenieT.ToString());
-
-                }
-                else if (chislaIznaci[i-1] == "/") //problem sveti tuka demek ot cikyla neshto
-                {
-                    reshenieT = double.Parse(chislaIznaci[i - 1]) / double.Parse(chislaIznaci[i + 1]);
-                    chislaIznaci.RemoveRange(i - 1, 3);
-                    chislaIznaci.Insert(i - 1, reshenieT.ToString());
+                    reshenieT = double.Parse(chislaIznaci[tempI - 1]) * double.Parse(chislaIznaci[tempI + 1]);
+                    chislaIznaci.RemoveRange(tempI - 1, 3);
+                    chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
                 }
             }
-            for (int i = 1; i <= chislaIznaci.Count; i++)
+            for (int i = 0; i < chislaIznaci.Count / 2; i++)
             {
-                if (chislaIznaci[i-1] == "+")
+                tempI = chislaIznaci.IndexOf("/");
+                if (tempI == -1) break;
+                else
                 {
-                    reshenieT = double.Parse(chislaIznaci[i - 1]) + double.Parse(chislaIznaci[i + 1]);
-                    chislaIznaci.RemoveRange(i - 1, 3);
-                    chislaIznaci.Insert(i - 1, reshenieT.ToString());
-                }
-                else if (chislaIznaci[i-1] == "-")
-                {
-
-                    reshenieT = double.Parse(chislaIznaci[i - 1]) - double.Parse(chislaIznaci[i + 1]);
-                    chislaIznaci.RemoveRange(i - 1, 3);
-                    chislaIznaci.Insert(i - 1, reshenieT.ToString()); // ima problem sus znacite i stava sled tova 2 i ne zachita minusa
+                    reshenieT = double.Parse(chislaIznaci[tempI - 1]) / double.Parse(chislaIznaci[tempI + 1]);
+                    chislaIznaci.RemoveRange(tempI - 1, 3);
+                    chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
                 }
             }
+            for (int i = 0; i < chislaIznaci.Count / 2; i++)
+            {
+                tempI = chislaIznaci.IndexOf("+");
+                if (tempI == -1) break;
+                else
+                {
+                    reshenieT = double.Parse(chislaIznaci[tempI - 1]) + double.Parse(chislaIznaci[tempI + 1]);
+                    chislaIznaci.RemoveRange(tempI - 1, 3);
+                    chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
+                }
+            }
+            for (int i = 0; i < chislaIznaci.Count / 2; i++)
+            {
+                tempI = chislaIznaci.IndexOf("-");
+                if (tempI == -1) break;
+                else
+                {
+                    reshenieT = double.Parse(chislaIznaci[tempI - 1]) - double.Parse(chislaIznaci[tempI + 1]);
+                    chislaIznaci.RemoveRange(tempI - 1, 3);
+                    chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
+                }
+            }
+            reshenieT = int.Parse(chislaIznaci[0]);
+            problem = problem.Substring(0, otvarqshta[index]) + reshenieT.ToString() + problem.Substring(zatvarqshta[index] + 1);
+            charArr.RemoveRange(otvarqshta[index], zatvarqshta[index] - otvarqshta[index] + 1);
+            charArr.InsertRange(otvarqshta[index], reshenieT.ToString().ToCharArray());
+            otvarqshta.Clear();
+            zatvarqshta.Clear();
+            chislaIznaci.Clear();
+            Array.Clear(tempCharArr, 0, tempCharArr.Length);
+            Otvarqshta();
+
+            //tozi metod ne baca kogato imam otricatelno pyrwo chislo
         }
     }
+
 }
