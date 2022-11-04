@@ -32,6 +32,9 @@ namespace calc
         {
             this.problem = problem;
             charArr.AddRange(problem);
+            problem = "(" + problem + ")";
+            charArr.Insert(0, '(');
+            charArr.Add(')');
             Otvarqshta();
             CalculiraneNaIndex();
         }
@@ -67,7 +70,6 @@ namespace calc
         }
         void CalculiraneNaIndex()
         {
-            problem = "(" + problem + ")";
             int puti = otvarqshta.Count;
             for (int i = 0; i < puti; i++)
             {
@@ -75,13 +77,12 @@ namespace calc
                 int index = zatvarqshta.IndexOf(tempNum);
                 SmqnaReshavane(index);
             }
-            problem = "(" + problem + ")";
         }
         void SmqnaReshavane(int index)
         {
             char[] tempCharArr = new char[] { };
             List<string> chislaIznaci = new List<string>();
-            string minProblem = problem.Substring(otvarqshta[index] + 1, zatvarqshta[index] - otvarqshta[index] - 1);
+            string minProblem = problem.Substring(otvarqshta[index]-1, zatvarqshta[index] - otvarqshta[index]);
             tempCharArr = minProblem.ToCharArray();
             int tempI = 0;
             for (int i = 0; i < tempCharArr.Length; i++)
@@ -95,6 +96,10 @@ namespace calc
             }
             chislaIznaci.Add(minProblem.Substring(tempI));
             double reshenieT = 0;
+            for(int i = 0; i < chislaIznaci.Count/2+1; i++)
+            {
+              //  if chisla
+            }
             for (int i = 0; i < chislaIznaci.Count / 2; i++)
             {
                 tempI = chislaIznaci.IndexOf("*");
