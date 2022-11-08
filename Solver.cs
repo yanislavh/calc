@@ -32,7 +32,7 @@ namespace calc
         {
             this.problem = problem;
             charArr.AddRange(problem);
-            problem = "(" + problem + ")";
+            this.problem = "(" + problem + ")";
             charArr.Insert(0, '(');
             charArr.Add(')');
             Otvarqshta();
@@ -82,7 +82,7 @@ namespace calc
         {
             char[] tempCharArr = new char[] { };
             List<string> chislaIznaci = new List<string>();
-            string minProblem = problem.Substring(otvarqshta[index]-1, zatvarqshta[index] - otvarqshta[index]);
+            string minProblem = problem.Substring(otvarqshta[index] + 1, zatvarqshta[index] - otvarqshta[index] - 1);
             tempCharArr = minProblem.ToCharArray();
             int tempI = 0;
             for (int i = 0; i < tempCharArr.Length; i++)
@@ -95,59 +95,105 @@ namespace calc
                 }
             }
             chislaIznaci.Add(minProblem.Substring(tempI));
+            for (int i = 0; i < chislaIznaci.Count / 2; i++)
+            {
+                if (chislaIznaci.IndexOf("") != -1)
+                {
+                    chislaIznaci.RemoveAt(chislaIznaci.IndexOf(""));
+                }
+                else break;
+            }
             double reshenieT = 0;
-            for(int i = 0; i < chislaIznaci.Count/2+1; i++)
+            if (chislaIznaci.Count != 2)
             {
-              //  if chisla
-            }
-            for (int i = 0; i < chislaIznaci.Count / 2; i++)
-            {
-                tempI = chislaIznaci.IndexOf("*");
-                if (tempI == -1) break;
-                else
+                for (int i = 0; i < chislaIznaci.Count; i++)
                 {
-                    reshenieT = double.Parse(chislaIznaci[tempI - 1]) * double.Parse(chislaIznaci[tempI + 1]);
-                    chislaIznaci.RemoveRange(tempI - 1, 3);
-                    chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
+                    int tempU = chislaIznaci.IndexOf("*");
+                    int tempD = chislaIznaci.IndexOf("/");
+                    int tempP = chislaIznaci.IndexOf("+");
+                    int tempM = chislaIznaci.IndexOf("-");
+                    if (chislaIznaci[tempU + 1] == "-")
+                    {
+                        string temp = "-" + chislaIznaci[tempU + 2];
+                        chislaIznaci.RemoveRange(tempU + 1, 2);
+                        chislaIznaci.Insert(tempU + 1, temp);
+                    }
+                    if (chislaIznaci[tempD + 1] == "-")
+                    {
+                        string temp = "-" + chislaIznaci[tempD + 2];
+                        chislaIznaci.RemoveRange(tempD + 1, 2);
+                        chislaIznaci.Insert(tempD + 1, temp);
+                    }
+                    if (chislaIznaci[tempP + 1] == "-")
+                    {
+                        string temp = "-" + chislaIznaci[tempP + 2];
+                        chislaIznaci.RemoveRange(tempP + 1, 2);
+                        chislaIznaci.Insert(tempP + 1, temp);
+                    }
+                    if (chislaIznaci[tempM + 1] == "-")
+                    {
+                        string temp = "-" + chislaIznaci[tempM + 2];
+                        chislaIznaci.RemoveRange(tempM + 1, 2);
+                        chislaIznaci.Insert(tempM + 1, temp);
+                    }
+                }
+                for (int i = 0; i < chislaIznaci.Count / 2; i++)
+                {
+                    tempI = chislaIznaci.IndexOf("*");
+                    if (tempI == -1) break;
+                    else
+                    {
+                        reshenieT = double.Parse(chislaIznaci[tempI - 1]) * double.Parse(chislaIznaci[tempI + 1]);
+                        chislaIznaci.RemoveRange(tempI - 1, 3);
+                        chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
+                    }
+                }
+                for (int i = 0; i < chislaIznaci.Count / 2; i++)
+                {
+                    tempI = chislaIznaci.IndexOf("/");
+                    if (tempI == -1) break;
+                    else
+                    {
+                        reshenieT = double.Parse(chislaIznaci[tempI - 1]) / double.Parse(chislaIznaci[tempI + 1]);
+                        chislaIznaci.RemoveRange(tempI - 1, 3);
+                        chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
+                    }
+                }
+                for (int i = 0; i < chislaIznaci.Count / 2; i++)
+                {
+                    tempI = chislaIznaci.IndexOf("+");
+                    if (tempI == -1) break;
+                    else
+                    {
+                        reshenieT = double.Parse(chislaIznaci[tempI - 1]) + double.Parse(chislaIznaci[tempI + 1]);
+                        chislaIznaci.RemoveRange(tempI - 1, 3);
+                        chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
+                    }
+                }
+
+                for (int i = 0; i < chislaIznaci.Count / 2; i++)
+                {
+                    tempI = chislaIznaci.IndexOf("-");
+                    if (tempI == -1) break;
+                    else
+                    {
+                        reshenieT = double.Parse(chislaIznaci[tempI - 1]) - double.Parse(chislaIznaci[tempI + 1]);
+                        chislaIznaci.RemoveRange(tempI - 1, 3);
+                        chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
+                    }
                 }
             }
-            for (int i = 0; i < chislaIznaci.Count / 2; i++)
+            else
             {
-                tempI = chislaIznaci.IndexOf("/");
-                if (tempI == -1) break;
-                else
-                {
-                    reshenieT = double.Parse(chislaIznaci[tempI - 1]) / double.Parse(chislaIznaci[tempI + 1]);
-                    chislaIznaci.RemoveRange(tempI - 1, 3);
-                    chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
-                }
-            }
-            for (int i = 0; i < chislaIznaci.Count / 2; i++)
-            {
-                tempI = chislaIznaci.IndexOf("+");
-                if (tempI == -1) break;
-                else
-                {
-                    reshenieT = double.Parse(chislaIznaci[tempI - 1]) + double.Parse(chislaIznaci[tempI + 1]);
-                    chislaIznaci.RemoveRange(tempI - 1, 3);
-                    chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
-                }
-            }
-            for (int i = 0; i < chislaIznaci.Count / 2; i++)
-            {
-                tempI = chislaIznaci.IndexOf("-");
-                if (tempI == -1) break;
-                else
-                {
-                    reshenieT = double.Parse(chislaIznaci[tempI - 1]) - double.Parse(chislaIznaci[tempI + 1]);
-                    chislaIznaci.RemoveRange(tempI - 1, 3);
-                    chislaIznaci.Insert(tempI - 1, reshenieT.ToString());
-                }
+                string temp = "-" + chislaIznaci[1];
+                chislaIznaci.RemoveRange(0, 2);
+                chislaIznaci.Insert(0, temp);
             }
             reshenieT = int.Parse(chislaIznaci[0]);
-            problem = problem.Substring(0, otvarqshta[index]) + reshenieT.ToString() + problem.Substring(zatvarqshta[index] + 1);
+            //problem = problem.Substring(0, otvarqshta[index]) + reshenieT.ToString() + problem.Substring(zatvarqshta[index]);
             charArr.RemoveRange(otvarqshta[index], zatvarqshta[index] - otvarqshta[index] + 1);
             charArr.InsertRange(otvarqshta[index], reshenieT.ToString().ToCharArray());
+            problem = new string(charArr.ToArray());
             otvarqshta.Clear();
             zatvarqshta.Clear();
             chislaIznaci.Clear();
