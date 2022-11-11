@@ -12,7 +12,7 @@ namespace calc
             //solver = new Solver(Console.ReadLine());
             string neshto = "syanislavs";
             Console.WriteLine(neshto.Substring(1, 8));
-            solver = new Solver("(25/5+10*3-(-5))*((15+27)*(19-6)+15*(16-9))");
+            solver = new Solver("(25/5+10*sqrt(25-16))*((15+27)*(19-6)+15*(16-9))");
             solver.Otvarqshta();
             //while (i == 0)
             //{
