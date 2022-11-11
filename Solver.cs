@@ -140,20 +140,6 @@ namespace calc
                         chislaIznaci.Insert(tempM + 1, temp);
                     }
                 }
-                for (int i = 0; i < chislaIznaci.Count; i++) // smqta funkcii da ama ne
-                {
-                    if (chislaIznaci[i] != "+" && chislaIznaci[i] != "-" && chislaIznaci[i] != "*" && chislaIznaci[i] != "/")
-                    {
-                        try
-                        {
-                            int s = int.Parse(chislaIznaci[i]); // ako svetne greshka pri probata za prevrushtane v int oznachava che ima bukvi koito shte sa funkcii
-                        }
-                        catch (Exception)
-                        {
-
-                        }
-                    }
-                }
                 for (int i = 0; i < chislaIznaci.Count / 2; i++) //pravi umnojavaneto kato vzima prednoto i sledvashtoto cislo i gi zamenq v chisla i znaci
                 {
                     tempI = chislaIznaci.IndexOf("*");
